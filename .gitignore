@@ -1,0 +1,14 @@
+# Visual Studio temporary files
+.vs/
+*.suo
+*.user
+
+# Binaries and build output
+[Bb]in/
+[Oo]bj/
+
+# NuGet packages
+*.nupkg
+
+# Other common build artifacts
+*.log
