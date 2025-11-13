@@ -13,6 +13,9 @@
         public bool isPublic { get; set; }
         //imageURL datatype has ? because it can be NULL (Nullable Reference Types)
         public string? imageURL { get; set; }
-        public int ownerID { get; set; }
+        //FK from User
+        public int userID { get; set; }
+        //FK from Category
+        public int categoryID { get; set; }
     }
 }
