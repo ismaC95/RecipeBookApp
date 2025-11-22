@@ -8,7 +8,7 @@
         required public string Instructions { get; set; }
         public int PrepTime { get; set; }
         public int CookTime { get; set; }
-        public string? Difficulty { get; set; }
+        required public string Difficulty { get; set; }
         public DateTime DateCreated { get; set; }
         public bool IsPublic { get; set; }
         //imageURL datatype has ? because it can be NULL (Nullable Reference Types)

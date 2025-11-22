@@ -2,14 +2,14 @@
 {
     public class RecipeBook
     {
-        public int recipeBookID { get; set; }
-        public string name { get; set; }
-        public string? description { get; set; }
-        public string? imageURL { get; set; }
-        public bool isPublic { get; set; }
-        public DateTime dateCreated { get; set; }
+        public int RecipeBookID { get; set; }
+        required public string Name { get; set; }
+        public string? Description { get; set; }
+        public string? ImageURL { get; set; }
+        public bool IsPublic { get; set; }
+        public DateTime DateCreated { get; set; }
 
         //FK from User
-        public int userID { get; set; }
+        public int OwnerID { get; set; }
     }
 }

@@ -26,9 +26,9 @@ namespace RecipeBookAPI.Repositories
                     OwnerID INTEGER NOT NULL,
                     CategoryID  INTEGER NOT NULL
 
-                    FOREIGN KEY (OwnerID) REFERENCES USER(UserID),
-                    FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID)
-            );";
+                    FOREIGN KEY (OwnerID) REFERENCES Users(UserID),
+                    FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
+                );";
             cmd.ExecuteNonQuery();
         }
         public void Insert(Recipe r)
@@ -38,8 +38,8 @@ namespace RecipeBookAPI.Repositories
 
             var cmd = connection.CreateCommand();
             cmd.CommandText = @"
-                INSERT INTO Recipes (
-                    Name, Instructions, PrepTime, CookTime, Difficulty, DateCreated, IsPublic, ImageURL, OwnerID, CategoryID) 
+                INSERT INTO Recipes 
+                    (Name, Instructions, PrepTime, CookTime, Difficulty, DateCreated, IsPublic, ImageURL, OwnerID, CategoryID) 
                 VALUES 
                     (@name, @instr, @prep, @cook, @diff, @date, @public, @img, @owner, @cat)";
 
@@ -88,7 +88,7 @@ namespace RecipeBookAPI.Repositories
                     IsPublic = @public,
                     ImageURL = @img,
                     OwnerID = @owner,
-                    CategoryID = @cat,
+                    CategoryID = @cat
                 WHERE
                     RecipeID = @id";
             cmd.Parameters.AddWithValue("@name", r.Name);
@@ -101,6 +101,8 @@ namespace RecipeBookAPI.Repositories
             cmd.Parameters.AddWithValue("@owner", r.OwnerID);
             cmd.Parameters.AddWithValue("@cat", r.CategoryID);
             cmd.Parameters.AddWithValue("@id", r.RecipeID);
+
+            cmd.ExecuteNonQuery();
         }
 
         public List<Recipe> GetAll()

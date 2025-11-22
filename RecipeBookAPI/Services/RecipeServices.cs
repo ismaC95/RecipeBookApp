@@ -15,8 +15,8 @@ namespace RecipeBookAPI.Services
         public Recipe CreateRecipe(Recipe newRecipe)
         {
             //Generic Namespace provides .Count that will count all the items in a list
-            newRecipe.recipeID = _recipes.Count + 1;
-            newRecipe.dateCreated = DateTime.Now;
+            newRecipe.RecipeID = _recipes.Count + 1;
+            newRecipe.DateCreated = DateTime.Now;
             _recipes.Add(newRecipe);
 
             return newRecipe; 
@@ -26,10 +26,10 @@ namespace RecipeBookAPI.Services
         {
             //Search for the recipe with recipeID and delete it only if the recipe exists and
             //the user requesting deletion is the owner of the recipe
-            var recipe = _recipes.FirstOrDefault(r => r.recipeID == recipeID);
+            var recipe = _recipes.FirstOrDefault(r => r.RecipeID == recipeID);
             if (recipe == null) return false;
 
-            var owner = recipe.userID;
+            var owner = recipe.OwnerID;
             if (owner != userID) return false;
 
             _recipes.Remove(recipe);
