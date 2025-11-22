@@ -1,21 +1,21 @@
 ﻿namespace RecipeBookAPI.Models
 {
+    //Represents Recipe entity stored in the database
     public class Recipe
     {
-        //Represents Recipe entity stored in the database
-        public int recipeID { get; set; }
-        public string name { get; set; }
-        public string instructions { get; set; }
-        public int prepTime { get; set; }
-        public int cookTime { get; set; }
-        public string difficulty { get; set; }
-        public DateTime dateCreated { get; set; }
-        public bool isPublic { get; set; }
+        public int RecipeID { get; set; }
+        required public string Name { get; set; }
+        required public string Instructions { get; set; }
+        public int PrepTime { get; set; }
+        public int CookTime { get; set; }
+        public string? Difficulty { get; set; }
+        public DateTime DateCreated { get; set; }
+        public bool IsPublic { get; set; }
         //imageURL datatype has ? because it can be NULL (Nullable Reference Types)
-        public string? imageURL { get; set; }
+        public string? ImageURL { get; set; }
         //FK from User
-        public int userID { get; set; }
+        public int OwnerID { get; set; }
         //FK from Category
-        public int categoryID { get; set; }
+        public int CategoryID { get; set; }
     }
 }

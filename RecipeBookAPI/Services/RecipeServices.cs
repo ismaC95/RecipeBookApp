@@ -4,7 +4,8 @@ using System.Reflection.Metadata.Ecma335;
 namespace RecipeBookAPI.Services
 {
     //Recipe class with all the business logic methods
-    //When in production, this class receives the requests from Users through controllers and will use the data from the database to provide the controllers with the requested information
+    //When in production, this class receives the requests from Users through controllers
+    //and will use the data from the database to provide the controllers with the requested information
     public class RecipeServices
     {
         //Recipe is private so it can't be accesses from outside this class (encapsulation)
