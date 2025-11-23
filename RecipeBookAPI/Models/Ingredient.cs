@@ -2,9 +2,10 @@
 {
     public class Ingredient
     {
-        public int ingredientID { get; set; }
-        public string name { get; set; }
-        public string? alergen { get; set; }
-        public int calories { get; set; }
+        public int IngredientID { get; set; }
+        required public string Name { get; set; }
+        public string? Alergen { get; set; }
+        public int? Calories { get; set; }
+        public string? ImageURL { get; set; }
     }
 }
