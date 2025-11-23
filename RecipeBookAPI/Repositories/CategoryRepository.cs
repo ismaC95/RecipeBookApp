@@ -21,6 +21,24 @@ namespace RecipeBookAPI.Repositories
             cmd.ExecuteNonQuery();
         }
 
+        public void Insert(Category c)
+        {
+            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            connection.Open();
+
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"
+                INSERT INTO Categories
+                    (Name, Description)
+                VALUES
+                    (@name, @desc)";
+            cmd.Parameters.AddWithValue("@name", c.Name);
+            cmd.Parameters.AddWithValue("@desc", c.Description);
+
+            cmd.ExecuteNonQuery();
+
+        }
+
         public List<Category> GetAll()
         {
             var list = new List<Category>();
