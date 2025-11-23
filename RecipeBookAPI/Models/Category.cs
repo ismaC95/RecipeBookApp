@@ -2,8 +2,8 @@
 {
     public class Category
     {
-        public int categoryID { get; set; }
-        public string name { get; set; }
-        public string? description { get; set; }
+        public int CategoryID { get; set; }
+        required public string Name { get; set; }
+        public string? Description { get; set; }
     }
 }
