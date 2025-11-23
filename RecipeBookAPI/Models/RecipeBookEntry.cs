@@ -4,11 +4,11 @@
     public class RecipeBookEntry
     {
         //FK from RecipeBook
-        public int recipeBookID { get; set; }
+        public int RecipeBookID { get; set; }
         //FK from Recipe
-        public int recipeID { get; set; }
+        public int RecipeID { get; set; }
         //FK from User
-        public int userID { get; set; }
-        public DateTime dateAdded { get; set; }
+        public int UserID { get; set; }
+        public DateTime DateAdded { get; set; }
     }
 }
