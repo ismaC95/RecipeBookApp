@@ -2,13 +2,13 @@
 {
     public class User
     {
-        public int userID { get; set; }
-        public string name { get; set; }
-        public string email { get; set; }
-        public string passwordHash { get; set; }
-        public DateTime dateRegistered { get; set; }
-        public string? profilePicURL { get; set; }
-        public string? bio { get; set; }
+        public int UserID { get; set; }
+        required public string Name { get; set; }
+        required public string Email { get; set; }
+        required public string PasswordHash { get; set; }
+        public DateTime DateRegistered { get; set; }
+        public string? ProfilePicURL { get; set; }
+        public string? Bio { get; set; }
 
     }
 }

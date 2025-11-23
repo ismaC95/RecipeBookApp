@@ -67,7 +67,10 @@ namespace RecipeBookAPI.Repositories
             connection.Open();
 
             var cmd = connection.CreateCommand();
-            cmd.CommandText = "SELECT * FROM RecipeBookMembers WHERE RecipeBookID = @rb";
+            cmd.CommandText = @"
+                SELECT UserID, RecipeBookID, JoinedDate
+                FROM RecipeBookMembers
+                WHERE RecipeBookID = @rb";
 
             cmd.Parameters.AddWithValue("@rb", RecipeBookID);
 
@@ -94,7 +97,10 @@ namespace RecipeBookAPI.Repositories
             connection.Open();
 
             var cmd = connection.CreateCommand();
-            cmd.CommandText = "SELECT * FROM RecipeBookMembers WHERE UserID = @user";
+            cmd.CommandText = @"
+                SELECT UserID, RecipeBookID, JoinedDate
+                FROM RecipeBookMembers
+                WHERE UserID = @user";
             cmd.Parameters.AddWithValue("@user", userID);
 
             using var reader = cmd.ExecuteReader();

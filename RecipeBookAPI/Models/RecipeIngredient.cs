@@ -4,10 +4,10 @@
     public class RecipeIngredient
     {
         //FK from Recipe
-        public int recipeID { get; set; }
+        public int RecipeID { get; set; }
         //FK from Ingredient
-        public int ingredientID { get; set; }
-        public int quantity { get; set; }
-        public string unitOfMeasure { get; set; }
+        public int IngredientID { get; set; }
+        public int Quantity { get; set; }
+        required public string UnitOfMeasure { get; set; }
     }
 }
