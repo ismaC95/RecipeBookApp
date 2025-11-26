@@ -1,5 +1,6 @@
 ﻿using RecipeBookAPI.Models;
-using System.Data.SQLite;
+using Microsoft.Data.Sqlite;
+
 
 namespace RecipeBookAPI.Repositories
 {
@@ -9,7 +10,7 @@ namespace RecipeBookAPI.Repositories
 
         public UserRepository()
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -27,7 +28,7 @@ namespace RecipeBookAPI.Repositories
         }
         public void Insert(User u)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -48,7 +49,7 @@ namespace RecipeBookAPI.Repositories
 
         public void Update(User u)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -76,12 +77,38 @@ namespace RecipeBookAPI.Repositories
 
         public User? GetByID(int id)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
             cmd.CommandText = "SELECT * FROM Users WHERE UserID = @id";
             cmd.Parameters.AddWithValue("@id", id);
+
+            using var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                return new User
+                {
+                    UserID = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Email = reader.GetString(2),
+                    PasswordHash = reader.GetString(3),
+                    DateRegistered = DateTime.Parse(reader.GetString(4)),
+                    ProfilePicURL = reader.IsDBNull(5) ? null : reader.GetString(5),
+                    Bio = reader.IsDBNull(6) ? null : reader.GetString(6)
+                };
+            }
+            return null;
+        }
+
+        public User? GetByEmail(string email)
+        {
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
+            connection.Open();
+
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = "SELECT * FROM Users WHERE Email = @email";
+            cmd.Parameters.AddWithValue("@email", email);
 
             using var reader = cmd.ExecuteReader();
             if (reader.Read())

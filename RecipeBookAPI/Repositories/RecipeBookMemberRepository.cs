@@ -1,4 +1,4 @@
-﻿using System.Data.SQLite;
+﻿using Microsoft.Data.Sqlite;
 using RecipeBookAPI.Models;
 
 namespace RecipeBookAPI.Repositories
@@ -8,7 +8,7 @@ namespace RecipeBookAPI.Repositories
         private const string DbFile = "recipeBook.db";
         public RecipeBookMemberRepository()
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -26,7 +26,7 @@ namespace RecipeBookAPI.Repositories
 
         public void Insert(RecipeBookMember rbm)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -44,7 +44,7 @@ namespace RecipeBookAPI.Repositories
 
         public void Delete(RecipeBookMember rbm)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -63,7 +63,7 @@ namespace RecipeBookAPI.Repositories
         {
             var list = new List<RecipeBookMember>();
 
-            using var connection = new SQLiteConnection($"Data Source={DbFile}");
+            using var connection = new SqliteConnection($"Data Source={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -93,7 +93,7 @@ namespace RecipeBookAPI.Repositories
         {
             var list = new List<RecipeBookMember>();
 
-            using var connection = new SQLiteConnection($"Data Source={DbFile}");
+            using var connection = new SqliteConnection($"Data Source={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();

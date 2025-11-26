@@ -1,5 +1,5 @@
 ﻿using RecipeBookAPI.Models;
-using System.Data.SQLite;
+using Microsoft.Data.Sqlite;
 
 namespace RecipeBookAPI.Repositories
 {
@@ -9,7 +9,7 @@ namespace RecipeBookAPI.Repositories
 
         public RecipeIngredientRepository()
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -28,7 +28,7 @@ namespace RecipeBookAPI.Repositories
 
         public void Insert(RecipeIngredient ri)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -47,7 +47,7 @@ namespace RecipeBookAPI.Repositories
 
         public void Delete(RecipeIngredient ri)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -65,7 +65,7 @@ namespace RecipeBookAPI.Repositories
         {
             var list = new List<RecipeIngredient>();
 
-            using var connection = new SQLiteConnection($"Data Source={DbFile}");
+            using var connection = new SqliteConnection($"Data Source={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();

@@ -1,5 +1,5 @@
 ﻿using RecipeBookAPI.Models;
-using System.Data.SQLite;
+using Microsoft.Data.Sqlite;
 
 namespace RecipeBookAPI.Repositories
 {
@@ -9,7 +9,7 @@ namespace RecipeBookAPI.Repositories
 
         public RecipeBookRepository()
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -30,7 +30,7 @@ namespace RecipeBookAPI.Repositories
 
         public void Insert(RecipeBook rb)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -52,7 +52,7 @@ namespace RecipeBookAPI.Repositories
 
         public void Delete(RecipeBook rb)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -62,7 +62,7 @@ namespace RecipeBookAPI.Repositories
 
         public void Update(RecipeBook rb)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -89,7 +89,7 @@ namespace RecipeBookAPI.Repositories
         public List<RecipeBook> GetByOwner(int ownerID)
         {
             var list = new List<RecipeBook>();
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -117,7 +117,7 @@ namespace RecipeBookAPI.Repositories
 
         public RecipeBook? GetByID(int id)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();

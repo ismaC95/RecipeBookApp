@@ -1,4 +1,4 @@
-﻿using System.Data.SQLite;
+﻿using Microsoft.Data.Sqlite;
 using RecipeBookAPI.Models;
 
 namespace RecipeBookAPI.Repositories
@@ -8,7 +8,7 @@ namespace RecipeBookAPI.Repositories
         private const string DbFile = "recipeBook.db";
 
         public RecipeRepository() {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -33,7 +33,7 @@ namespace RecipeBookAPI.Repositories
         }
         public void Insert(Recipe r)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -62,7 +62,7 @@ namespace RecipeBookAPI.Repositories
 
         public void Delete(Recipe r)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -73,7 +73,7 @@ namespace RecipeBookAPI.Repositories
 
         public void Update(Recipe r)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -107,7 +107,7 @@ namespace RecipeBookAPI.Repositories
 
         public List<Recipe> GetAll()
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
             var list = new List<Recipe>();
 
@@ -139,7 +139,7 @@ namespace RecipeBookAPI.Repositories
 
         public Recipe? GetByID(int id)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();

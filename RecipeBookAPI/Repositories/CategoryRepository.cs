@@ -1,5 +1,5 @@
 ﻿using RecipeBookAPI.Models;
-using System.Data.SQLite;
+using Microsoft.Data.Sqlite;
 
 namespace RecipeBookAPI.Repositories
 {
@@ -8,7 +8,7 @@ namespace RecipeBookAPI.Repositories
         private const string DbFile = "recipeBook.db";
         public CategoryRepository()
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -23,7 +23,7 @@ namespace RecipeBookAPI.Repositories
 
         public void Insert(Category c)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -42,7 +42,7 @@ namespace RecipeBookAPI.Repositories
         public List<Category> GetAll()
         {
             var list = new List<Category>();
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
@@ -64,7 +64,7 @@ namespace RecipeBookAPI.Repositories
 
         public Category? GetByID(int id)
         {
-            using var connection = new SQLiteConnection($"Data Source ={DbFile}");
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
