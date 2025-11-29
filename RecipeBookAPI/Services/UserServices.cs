@@ -3,9 +3,14 @@ using RecipeBookAPI.Models;
 
 namespace RecipeBookAPI.Services
 {
-    public class UserService
+    public class UserServices
     {
-        public readonly UserRepository _repo = new UserRepository();
+        private readonly UserRepository _repo;
+
+        public UserServices(UserRepository repo)
+        {
+            _repo = repo;
+        }
 
         public void RegisterUser(string name, string email, string password)
         {
@@ -17,7 +22,7 @@ namespace RecipeBookAPI.Services
                     Email = email,
                     //how to hash password? PasswordHash = HashPassword(password)
                     PasswordHash = password,
-                    DateRegistered = DateTime.UtcNow,
+                    DateRegistered = DateTime.Now,
 
                     //REVIEW
                     ProfilePicURL = "profile",

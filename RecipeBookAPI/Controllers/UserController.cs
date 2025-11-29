@@ -10,9 +10,9 @@ namespace RecipeBookAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
-        private readonly UserService _userService;
+        private readonly UserServices _userService;
 
-        public UserController(ILogger<UserController> logger, UserService userService)
+        public UserController(ILogger<UserController> logger, UserServices userService)
         {
             _logger = logger;
             _userService = userService;

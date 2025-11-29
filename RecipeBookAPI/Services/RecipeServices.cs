@@ -1,5 +1,5 @@
 ﻿using RecipeBookAPI.Models;
-using System.Reflection.Metadata.Ecma335;
+using RecipeBookAPI.Repositories;
 
 namespace RecipeBookAPI.Services
 {
@@ -8,33 +8,61 @@ namespace RecipeBookAPI.Services
     //and will use the data from the database to provide the controllers with the requested information
     public class RecipeServices
     {
-        //Recipe is private so it can't be accesses from outside this class (encapsulation)
-        //using a List now but in the future will be a database table with Entitiy Framework (EF Core)
-        private static List<Recipe> _recipes = new List<Recipe>();
+        private readonly RecipeRepository _repo;
+        private readonly UserRepository _userRepo;
+        private readonly IngredientRepository _ingredientRepo;
+        private readonly RecipeIngredientRepository _recipeIngredientRepo;
 
-        public Recipe CreateRecipe(Recipe newRecipe)
+        public RecipeServices(
+            RecipeRepository recipeRepo, 
+            UserRepository userRepo, 
+            IngredientRepository ingredientRepo,
+            RecipeIngredientRepository recipeIngredientRepo)
         {
-            //Generic Namespace provides .Count that will count all the items in a list
-            newRecipe.RecipeID = _recipes.Count + 1;
-            newRecipe.DateCreated = DateTime.Now;
-            _recipes.Add(newRecipe);
-
-            return newRecipe; 
+            _repo = recipeRepo;
+            _userRepo = userRepo;
+            _ingredientRepo = ingredientRepo;
+            _recipeIngredientRepo = recipeIngredientRepo;
         }
 
-        public bool DeleteRecipe(int recipeID, int userID)
+        //public void CreateRecipe(
+        //    Recipe recipe,
+        //    List<RecipeIngredient> ingredients)
+        //{
+        //    var user = _userRepo.GetByID(recipe.OwnerID);
+        //    if (user is null)
+        //        throw new Exception("You must be logged in");
+
+        //    recipe.DateCreated = DateTime.Now;   
+        //    _repo.Insert(recipe);
+
+        //    foreach(var ingredient in ingredients)
+        //    {
+        //        var ingredient = _ingredientRepo
+        //    }
+        //}
+
+        public void DeleteRecipe(int recipeID, int userID)
         {
-            //Search for the recipe with recipeID and delete it only if the recipe exists and
-            //the user requesting deletion is the owner of the recipe
-            var recipe = _recipes.FirstOrDefault(r => r.RecipeID == recipeID);
-            if (recipe == null) return false;
+            var user = _userRepo.GetByID(userID);
+            if (user is null)
+                throw new Exception("You must be logged in");
 
-            var owner = recipe.OwnerID;
-            if (owner != userID) return false;
+            var recipe = _repo.GetByID(recipeID);
 
-            _recipes.Remove(recipe);
+            if (recipe is null)
+                throw new Exception("Recipe not found.");
 
-            return true;
+            //validating user deleting is recipe owner
+            if (recipe.OwnerID != user.UserID)
+                throw new Exception("You are not allowed to delete this recipe.");
+
+            _repo.Delete(recipe);
+        }
+
+        public List<Recipe> GetPublicRecipes()
+        {
+            return _repo.GetPublicRecipes();
         }
     }
 }

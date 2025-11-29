@@ -166,5 +166,71 @@ namespace RecipeBookAPI.Repositories
             }
             return null;
         }
+
+        public List<Recipe> GetPublicRecipes()
+        {
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
+            connection.Open();
+
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = "SELECT * FROM Recipes WHERE IsPublic = 1";
+
+            var list = new List<Recipe>();
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                list.Add(new Recipe
+                {
+                    RecipeID = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Instructions = reader.GetString(2),
+                    PrepTime = reader.GetInt32(3),
+                    CookTime = reader.GetInt32(4),
+                    Difficulty = reader.GetString(5),
+                    DateCreated = DateTime.Parse(reader.GetString(6)),
+                    IsPublic = reader.GetBoolean(7),
+                    ImageURL = reader.IsDBNull(8) ? null : reader.GetString(8),
+                    OwnerID = reader.GetInt32(9),
+                    CategoryID = reader.GetInt32(10),
+                });
+            }
+
+            return list;
+        }
+
+        public List<Recipe> GetByCategory(int categoryID)
+        {
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
+            connection.Open();
+
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = "SELECT * FROM Recipes WHERE CategoryID=@cat";
+            cmd.Parameters.AddWithValue("@cat", categoryID);
+
+
+            var list = new List<Recipe>();
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                list.Add(new Recipe
+                {
+                    RecipeID = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Instructions = reader.GetString(2),
+                    PrepTime = reader.GetInt32(3),
+                    CookTime = reader.GetInt32(4),
+                    Difficulty = reader.GetString(5),
+                    DateCreated = DateTime.Parse(reader.GetString(6)),
+                    IsPublic = reader.GetBoolean(7),
+                    ImageURL = reader.IsDBNull(8) ? null : reader.GetString(8),
+                    OwnerID = reader.GetInt32(9),
+                    CategoryID = reader.GetInt32(10),
+                });
+            }
+
+            return list;
+        }
     }
 }

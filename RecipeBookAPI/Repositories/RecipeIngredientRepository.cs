@@ -91,5 +91,25 @@ namespace RecipeBookAPI.Repositories
             return list;
         }
 
+        public List<int> GetRecipesIDByIngredient(int ingredientID)
+        {
+            var recipeIDs = new List<int>();
+
+            using var connection = new SqliteConnection($"Data Source={DbFile}");
+            connection.Open();
+
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = "SELECT RecipeID FROM RecipeIngredients WHERE IngredientID=@id";
+            cmd.Parameters.AddWithValue("@id", ingredientID);
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                recipeIDs.Add(reader.GetInt32(0));
+            }
+
+            return recipeIDs;
+
+        }
     }
 }

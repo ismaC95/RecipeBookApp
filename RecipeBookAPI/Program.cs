@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //Dependency injection -to study-, another option to 
-builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<UserServices>();
 builder.Services.AddScoped<UserRepository>();
 
 var app = builder.Build();
