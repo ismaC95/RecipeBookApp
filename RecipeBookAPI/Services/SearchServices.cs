@@ -1,7 +1,5 @@
 ﻿using RecipeBookAPI.Models;
 using RecipeBookAPI.Repositories;
-using SQLitePCL;
-using System.Collections.Generic;
 
 namespace RecipeBookAPI.Services
 {

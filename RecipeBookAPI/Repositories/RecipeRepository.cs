@@ -31,7 +31,7 @@ namespace RecipeBookAPI.Repositories
                 );";
             cmd.ExecuteNonQuery();
         }
-        public void Insert(Recipe r)
+        public int Insert(Recipe r)
         {
             using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
@@ -58,6 +58,12 @@ namespace RecipeBookAPI.Repositories
             cmd.Parameters.AddWithValue("@cat", r.CategoryID);
 
             cmd.ExecuteNonQuery();
+
+            //To provide the FK to junction tables we need to return the RecipeID
+            var idCmd = connection.CreateCommand();
+            idCmd.CommandText = "SELECT last_insert_rowid();";
+
+            return Convert.ToInt32(idCmd.ExecuteScalar());
         }
 
         public void Delete(Recipe r)

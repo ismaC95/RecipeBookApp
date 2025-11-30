@@ -33,7 +33,7 @@ namespace RecipeBookAPI.Services
             }
             else
             {
-                throw new Exception("Email is being used already");
+                throw new InvalidOperationException("Email is being used already");
             }
         }
         //To review

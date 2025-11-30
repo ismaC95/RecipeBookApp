@@ -1,5 +1,6 @@
 ﻿using RecipeBookAPI.Models;
 using Microsoft.Data.Sqlite;
+using System.Reflection.Metadata;
 
 namespace RecipeBookAPI.Repositories
 {
@@ -23,7 +24,7 @@ namespace RecipeBookAPI.Repositories
             cmd.ExecuteNonQuery();
         }
 
-        public void Insert(Ingredient i)
+        public int Insert(Ingredient i)
         {
             using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
@@ -40,6 +41,12 @@ namespace RecipeBookAPI.Repositories
             cmd.Parameters.AddWithValue("@img", i.ImageURL);
             
             cmd.ExecuteNonQuery();
+
+            //To provide the FK to junction tables we need to return the RecipeID
+            var idCmd = connection.CreateCommand();
+            idCmd.CommandText = "SELECT last_insert_rowid();";
+
+            return Convert.ToInt32(idCmd.ExecuteScalar());
         }
 
         public List<Ingredient> GetAll()
@@ -85,6 +92,27 @@ namespace RecipeBookAPI.Repositories
                     Alergen = reader.IsDBNull(2) ? null : reader.GetString(2),
                     Calories = reader.IsDBNull(3) ? null : reader.GetInt32(3),
                     ImageURL = reader.IsDBNull(4) ? null : reader.GetString(4),
+                };
+            }
+            return null;
+        }
+
+        public Ingredient? GetByName(string name)
+        {
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
+            connection.Open();
+
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = "SELECT IngredientID, Name FROM Ingredients WHERE Name = @n";
+            cmd.Parameters.AddWithValue("@n", name);
+
+            using var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                return new Ingredient
+                {
+                    IngredientID = reader.GetInt32(0),
+                    Name = reader.GetString(1),
                 };
             }
             return null;

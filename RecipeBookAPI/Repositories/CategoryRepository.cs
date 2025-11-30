@@ -84,5 +84,40 @@ namespace RecipeBookAPI.Repositories
 
             return null;
         }
+
+        public void DeleteCategory(Category c)
+        {
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
+            connection.Open();
+
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = "DELETE FROM Categories WHERE CategoryID=@id";
+            cmd.Parameters.AddWithValue("@id", c.CategoryID);
+            cmd.ExecuteNonQuery();
+        }
+
+        public Category? GetByName(string name)
+        {
+            using var connection = new SqliteConnection($"Data Source ={DbFile}");
+            connection.Open();
+
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = "SELECT * FROM Categories WHERE Name = @n";
+            cmd.Parameters.AddWithValue("@n", name);
+
+            using var reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                return new Category
+                {
+                    CategoryID = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Description = reader.IsDBNull(2) ? null : reader.GetString(2)
+                };
+            }
+
+            return null;
+        }
     }
 }
+
