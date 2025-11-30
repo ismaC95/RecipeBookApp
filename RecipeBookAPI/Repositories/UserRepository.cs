@@ -41,8 +41,8 @@ namespace RecipeBookAPI.Repositories
             cmd.Parameters.AddWithValue("@email", u.Email);
             cmd.Parameters.AddWithValue("@hash", u.PasswordHash);
             cmd.Parameters.AddWithValue("@date", u.DateRegistered.ToString("o"));
-            cmd.Parameters.AddWithValue("@img", u.ProfilePicURL);
-            cmd.Parameters.AddWithValue("@bio", u.Bio);
+            cmd.Parameters.AddWithValue("@img", u.ProfilePicURL as object ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@bio", u.Bio as object ?? DBNull.Value);
 
             cmd.ExecuteNonQuery();
         }

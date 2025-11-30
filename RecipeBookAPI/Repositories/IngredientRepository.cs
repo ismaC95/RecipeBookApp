@@ -36,10 +36,10 @@ namespace RecipeBookAPI.Repositories
                 VALUES
                     (@name, @alergen, @cal, @img)";
             cmd.Parameters.AddWithValue("@name", i.Name);
-            cmd.Parameters.AddWithValue("@alergen", i.Alergen);
+            cmd.Parameters.AddWithValue("@alergen", i.Alergen as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@cal", i.Calories);
-            cmd.Parameters.AddWithValue("@img", i.ImageURL);
-            
+            cmd.Parameters.AddWithValue("@img", i.ImageURL as object ?? DBNull.Value);
+
             cmd.ExecuteNonQuery();
 
             //To provide the FK to junction tables we need to return the RecipeID

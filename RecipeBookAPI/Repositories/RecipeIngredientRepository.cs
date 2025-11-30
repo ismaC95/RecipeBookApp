@@ -17,7 +17,7 @@ namespace RecipeBookAPI.Repositories
                 CREATE TABLE IF NOT EXISTS RecipeIngredients (
                     RecipeID INTEGER NOT NULL,
                     IngredientID INTEGER NOT NULL,
-                    Quantity INTEGER NOT NULL,
+                    Quantity REAL NOT NULL,
                     UnitOfMeasure TEXT NOT NULL,
                 PRIMARY KEY (RecipeID, IngredientID),
                 FOREIGN KEY (RecipeID) REFERENCES Recipes(RecipeID),

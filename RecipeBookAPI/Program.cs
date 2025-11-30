@@ -15,8 +15,10 @@ builder.Services.AddScoped<UserServices>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<CategoryServices>();
 builder.Services.AddScoped<CategoryRepository>();
-//builder.Services.AddScoped<RecipeServices>();
-//builder.Services.AddScoped<RecipeRepository>();
+builder.Services.AddScoped<RecipeServices>();
+builder.Services.AddScoped<RecipeRepository>();
+builder.Services.AddScoped<IngredientRepository>();
+builder.Services.AddScoped<RecipeIngredientRepository>();
 
 var app = builder.Build();
 

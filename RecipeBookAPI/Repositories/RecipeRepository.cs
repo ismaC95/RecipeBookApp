@@ -24,7 +24,7 @@ namespace RecipeBookAPI.Repositories
                     IsPublic INTEGER NOT NULL,
                     ImageURL TEXT,
                     OwnerID INTEGER NOT NULL,
-                    CategoryID  INTEGER NOT NULL
+                    CategoryID  INTEGER NOT NULL,
 
                     FOREIGN KEY (OwnerID) REFERENCES Users(UserID),
                     FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
@@ -53,7 +53,7 @@ namespace RecipeBookAPI.Repositories
             cmd.Parameters.AddWithValue("@date", r.DateCreated.ToString("o"));
             //IsPublic is a boolean, therefore we have to introduce it as such
             cmd.Parameters.AddWithValue("@public", r.IsPublic ? 1 : 0);
-            cmd.Parameters.AddWithValue("@img", r.ImageURL);
+            cmd.Parameters.AddWithValue("@img", r.ImageURL as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@owner", r.OwnerID);
             cmd.Parameters.AddWithValue("@cat", r.CategoryID);
 

@@ -21,38 +21,56 @@ namespace RecipeBookAPI.Controllers
         [HttpPost("Create Recipe")]
         public IActionResult CreateRecipe([FromBody] CreateRecipeRequest request)
         {
-
-            var ingredients = new List<Ingredient>();
-
-            foreach (var ingReq in request.Ingredients)
-            {
-                ingredients.Add(new Ingredient
+            //try
+            //{
+                var newRecipe = new Recipe
                 {
-                    Name = ingReq.Name,
-                    Alergen = ingReq.Alergen,
-                    Calories = ingReq.Calories,
-                    ImageURL = ingReq.ImageURL
-                });
-            }
+                    Name = request.Recipe.Name,
+                    Instructions = request.Recipe.Instructions,
+                    PrepTime = request.Recipe.PrepTime,
+                    CookTime = request.Recipe.CookTime,
+                    Difficulty = request.Recipe.Difficulty,
+                    IsPublic = request.Recipe.IsPublic,
+                    ImageURL = request.Recipe.ImageURL,
+                    OwnerID = request.Recipe.OwnerID,
+                    CategoryID = request.Recipe.CategoryID,
+                };
+                var ingredients = new List<Ingredient>();
 
-            var measures = new List<RecipeIngredient>();
-
-            foreach (var mReq in request.IngredientMeasures)
-            {
-                measures.Add(new RecipeIngredient
+                foreach (var ingReq in request.Ingredients)
                 {
-                    Quantity = mReq.Quantity,
-                    UnitOfMeasure = mReq.UnitOfMeasure
-                });
-            }
+                    ingredients.Add(new Ingredient
+                    {
+                        Name = ingReq.Name,
+                        Alergen = ingReq.Alergen,
+                        Calories = ingReq.Calories,
+                        ImageURL = ingReq.ImageURL
+                    });
+                }
 
-            _recipeService.CreateRecipe(
-                    request.Recipe,
-                    measures,
-                    ingredients
-                );
+                var measures = new List<RecipeIngredient>();
 
-            return Ok("Recipe created successfully.");
+                foreach (var mReq in request.IngredientMeasures)
+                {
+                    measures.Add(new RecipeIngredient
+                    {
+                        Quantity = mReq.Quantity,
+                        UnitOfMeasure = mReq.UnitOfMeasure
+                    });
+                }
+
+                _recipeService.CreateRecipe(
+                        newRecipe,
+                        measures,
+                        ingredients
+                    );
+
+                return Ok("Recipe created successfully.");
+            //}
+            //catch (Exception ex)
+            //{
+            //    return Conflict(ex.Message);
+            //}
         }
     }
 }

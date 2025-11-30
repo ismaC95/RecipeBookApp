@@ -7,7 +7,7 @@
         public int RecipeID { get; set; }
         //FK from Ingredient
         public int IngredientID { get; set; }
-        public int Quantity { get; set; }
+        public decimal Quantity { get; set; }
         required public string UnitOfMeasure { get; set; }
     }
 }

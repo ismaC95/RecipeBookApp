@@ -33,7 +33,7 @@ namespace RecipeBookAPI.Services
             //is the user registered?
             var user = _userRepo.GetByID(recipe.OwnerID);
             if (user is null)
-                throw new Exception("You must be logged in");
+                throw new InvalidOperationException("You must be logged in");
 
             //create new Recipe in RecipeRepository with date of today
             recipe.DateCreated = DateTime.Now;

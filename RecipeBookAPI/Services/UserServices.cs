@@ -25,8 +25,8 @@ namespace RecipeBookAPI.Services
                     DateRegistered = DateTime.Now,
 
                     //REVIEW
-                    ProfilePicURL = "profile",
-                    Bio = "null"
+                    ProfilePicURL = null,
+                    Bio = null,
                 };
 
                 _repo.Insert(newUser);
