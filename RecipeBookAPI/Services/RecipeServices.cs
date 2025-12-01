@@ -80,23 +80,57 @@ namespace RecipeBookAPI.Services
         {
             var user = _userRepo.GetByID(userID);
             if (user is null)
-                throw new Exception("You must be logged in");
+                throw new InvalidOperationException("You must be logged in");
 
             var recipe = _recipeRepo.GetByID(recipeID);
 
             if (recipe is null)
-                throw new Exception("Recipe not found.");
+                throw new InvalidOperationException("Recipe not found.");
 
             //validating user deleting is recipe owner
             if (recipe.OwnerID != user.UserID)
-                throw new Exception("You are not allowed to delete this recipe.");
+                throw new InvalidOperationException("You are not allowed to delete this recipe.");
 
-            _recipeRepo.Delete(recipe);
+            //delete RecipeIngredient rows from this recipe
+            var recipeIngredients = _recipeIngredientRepo.GetByRecipeID(recipeID);
+
+            foreach (var ri in recipeIngredients)
+            {
+                _recipeIngredientRepo.DeleteByIDs(ri.RecipeID, ri.IngredientID);
+            }
+
+            //delete the full recipe row
+            _recipeRepo.DeleteByID(recipeID);
         }
+
+        public void UpdateRecipe(Recipe updatedRecipe, int userID)
+        {
+            var existing = _recipeRepo.GetByID(updatedRecipe.RecipeID);
+            if (existing == null)
+                throw new InvalidOperationException("Recipe not found.");
+
+            if (existing.OwnerID != userID)
+                throw new InvalidOperationException("You are not allowed to edit this recipe.");
+
+            //OwnerID and DateCreated won't change
+            updatedRecipe.OwnerID = existing.OwnerID;
+            updatedRecipe.DateCreated = existing.DateCreated;
+
+            _recipeRepo.Update(updatedRecipe);
+        }
+
+        //To update a full recipe we have to as well provide methods to change the ingredients and the subsequent
+        //RecipeIngredient junction tables with measures, etc.
+
+
 
         public List<Recipe> GetPublicRecipes()
         {
-            return _recipeRepo.GetPublicRecipes();
+            var allRecipes = _recipeRepo.GetPublicRecipes();
+
+            if (allRecipes == null) throw new InvalidOperationException("No recipes in the database");
+            
+            return allRecipes;
         }
     }
 }

@@ -18,11 +18,11 @@ namespace RecipeBookAPI.Controllers
             _recipeService = recipeService;
         }
 
-        [HttpPost("Create Recipe")]
+        [HttpPost("CreateRecipe")]
         public IActionResult CreateRecipe([FromBody] CreateRecipeRequest request)
         {
-            //try
-            //{
+            try
+            {
                 var newRecipe = new Recipe
                 {
                     Name = request.Recipe.Name,
@@ -65,12 +65,54 @@ namespace RecipeBookAPI.Controllers
                         ingredients
                     );
 
-                return Ok("Recipe created successfully.");
-            //}
-            //catch (Exception ex)
-            //{
-            //    return Conflict(ex.Message);
-            //}
+                return Ok("Recipe created");
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message);
+            }
+        }
+
+        [HttpDelete("{recipeID}")]
+        public IActionResult DeleteRecipe(int recipeID, [FromQuery] int userID)
+        {
+            try
+            {
+                _recipeService.DeleteRecipe(recipeID, userID);
+                return Ok("Recipe deleted");
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message);
+            }
+        }
+
+        [HttpPut("UpdateRecipe")]
+        public IActionResult UpdateRecipe([FromBody] Recipe recipe, [FromQuery] int userID)
+        {
+            try
+            {
+                _recipeService.UpdateRecipe(recipe, userID);
+                return Ok("Recipe updated");
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message);
+            }
+        }
+
+        [HttpGet("GetAllRecipes")]
+        public IActionResult GetAllRecipes()
+        {
+            try
+            {
+                var recipes = _recipeService.GetPublicRecipes();
+                return Ok(recipes);
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

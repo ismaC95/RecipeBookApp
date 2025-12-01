@@ -1,6 +1,4 @@
-﻿using RecipeBookAPI.Models;
-
-namespace RecipeBookAPI.Requests
+﻿namespace RecipeBookAPI.Requests
 {
     public class CreateRecipeRequest
     {

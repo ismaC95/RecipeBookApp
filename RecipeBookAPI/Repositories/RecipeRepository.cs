@@ -66,14 +66,14 @@ namespace RecipeBookAPI.Repositories
             return Convert.ToInt32(idCmd.ExecuteScalar());
         }
 
-        public void Delete(Recipe r)
+        public void DeleteByID(int recipeID)
         {
             using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
 
             var cmd = connection.CreateCommand();
             cmd.CommandText = "DELETE FROM Recipes WHERE RecipeID=@id";
-            cmd.Parameters.AddWithValue("@id", r.RecipeID);
+            cmd.Parameters.AddWithValue("@id", recipeID);
             cmd.ExecuteNonQuery();
         }
 
@@ -93,7 +93,6 @@ namespace RecipeBookAPI.Repositories
                     Difficulty = @diff,
                     IsPublic = @public,
                     ImageURL = @img,
-                    OwnerID = @owner,
                     CategoryID = @cat
                 WHERE
                     RecipeID = @id";
@@ -103,8 +102,7 @@ namespace RecipeBookAPI.Repositories
             cmd.Parameters.AddWithValue("@cook", r.CookTime);
             cmd.Parameters.AddWithValue("@diff", r.Difficulty);
             cmd.Parameters.AddWithValue("@public", r.IsPublic ? 1 : 0);
-            cmd.Parameters.AddWithValue("@img", r.ImageURL);
-            cmd.Parameters.AddWithValue("@owner", r.OwnerID);
+            cmd.Parameters.AddWithValue("@img", r.ImageURL as object ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@cat", r.CategoryID);
             cmd.Parameters.AddWithValue("@id", r.RecipeID);
 

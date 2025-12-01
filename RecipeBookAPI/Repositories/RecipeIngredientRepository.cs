@@ -44,8 +44,29 @@ namespace RecipeBookAPI.Repositories
 
             cmd.ExecuteNonQuery();
         }
+        
+        public void Update(RecipeIngredient ri)
+        {
+            using var connection = new SqliteConnection($"Data Source={DbFile}");
+            connection.Open();
 
-        public void Delete(RecipeIngredient ri)
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"
+                UPDATE RecipeIngredients
+                SET 
+                    Quantity = @quantity,
+                    UnitOfMeasure = @unit
+                WHERE 
+                    RecipeID = @recipe AND IngredientID = @ingr";
+
+            cmd.Parameters.AddWithValue("@recipe", ri.RecipeID);
+            cmd.Parameters.AddWithValue("@ingr", ri.IngredientID);
+            cmd.Parameters.AddWithValue("@quantity", ri.Quantity);
+            cmd.Parameters.AddWithValue("@unit", ri.UnitOfMeasure);
+
+            cmd.ExecuteNonQuery();
+        }
+        public void DeleteByIDs(int recipeID, int ingredientID)
         {
             using var connection = new SqliteConnection($"Data Source ={DbFile}");
             connection.Open();
@@ -55,8 +76,8 @@ namespace RecipeBookAPI.Repositories
                 DELETE FROM RecipeIngredients
                 WHERE RecipeID = @recipe AND IngredientID = @ingr";
 
-            cmd.Parameters.AddWithValue("@recipe", ri.RecipeID);
-            cmd.Parameters.AddWithValue("@ingr", ri.IngredientID);
+            cmd.Parameters.AddWithValue("@recipe", recipeID);
+            cmd.Parameters.AddWithValue("@ingr", ingredientID);
 
             cmd.ExecuteNonQuery();
         }
