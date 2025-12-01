@@ -26,7 +26,7 @@ namespace RecipeBookAPI.Services
         //a list of all the distinct recipes that matches with the user provided keyword
         public List<Recipe> RecipeLinearSearch(string keyword)
         {
-            if (string.IsNullOrWhiteSpace(keyword)) throw new Exception("Missing search keyword");
+            if (string.IsNullOrWhiteSpace(keyword)) throw new InvalidOperationException("Missing search keyword");
 
             var finalResults = new List<Recipe>();
             

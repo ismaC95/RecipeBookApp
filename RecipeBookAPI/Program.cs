@@ -19,6 +19,8 @@ builder.Services.AddScoped<RecipeServices>();
 builder.Services.AddScoped<RecipeRepository>();
 builder.Services.AddScoped<IngredientRepository>();
 builder.Services.AddScoped<RecipeIngredientRepository>();
+builder.Services.AddScoped<SearchServices>();
+
 
 var app = builder.Build();
 
