@@ -132,5 +132,47 @@ namespace RecipeBookAPI.Services
             
             return allRecipes;
         }
+
+        public List<Recipe> GetByOwner(int ownerID)
+        {
+            if (_recipeRepo.GetByOwner(ownerID) == null) throw new InvalidOperationException("User doesn't exist");
+            
+            return _recipeRepo.GetByOwner(ownerID);
+        }
+
+        //filtering
+        public List<Recipe> TotalTimeFilter(int minTime, int maxTime)
+        {
+            if (minTime < 0 || maxTime < 0)
+                throw new ArgumentException("Time values cannot be negative.");
+
+            if (minTime > maxTime)
+                throw new ArgumentException("Minimum time cannot be greater than maximum time.");
+
+            var recipes = _recipeRepo.GetPublicRecipes();
+
+            List<Recipe> filteredRecipe = new List<Recipe>();
+
+            foreach (var recipe in recipes)
+            {
+                int totalTime = recipe.PrepTime + recipe.CookTime;
+
+                if (totalTime >= minTime && totalTime <= maxTime) filteredRecipe.Add(recipe);
+            }
+
+            return filteredRecipe;
+        }
+
+        public List<Recipe> DifficultyFilter(string difficulty)
+        {
+            if (string.IsNullOrWhiteSpace(difficulty))
+                throw new ArgumentException("Difficulty must be provided.");
+
+            var recipes = _recipeRepo.GetPublicRecipes();
+
+            return recipes
+                .Where(r => r.Difficulty.Equals(difficulty, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
     }
 }

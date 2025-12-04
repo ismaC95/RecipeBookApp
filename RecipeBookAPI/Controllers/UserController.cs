@@ -37,5 +37,37 @@ namespace RecipeBookAPI.Controllers
                 return Conflict(ex.Message);
             }
         }
+
+        [HttpPut("UpdateUser")]
+        public IActionResult UpdateUser(User updatedUser, int userID)
+        {
+            try
+            {
+                _userService.UpdateUser(updatedUser, userID);
+                return Ok("User information has been updated");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(ex.Message);
+            }
+        }
+
+        [HttpPost("Login")]
+        public IActionResult Login([FromQuery] string email, [FromQuery] string password)
+        {
+            try
+            {
+                _userService.Login(email, password);
+                return Ok("Welcome back");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+        }
     }
 }

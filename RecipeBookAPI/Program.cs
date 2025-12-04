@@ -6,11 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//Dependency injection -to study-, another option to 
+//Dependency injection. AddScoped creates a new instance when the user calls
+//the endpoint
 builder.Services.AddScoped<UserServices>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<CategoryServices>();
@@ -24,7 +24,6 @@ builder.Services.AddScoped<SearchServices>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

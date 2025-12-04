@@ -36,10 +36,16 @@ namespace RecipeBookAPI.Services
                 throw new InvalidOperationException("Email is being used already");
             }
         }
-        //To review
-        public void UpdateUser(int userID, User updatedData)
+        public void UpdateUser(User updatedUser, int userID)
         {
+            var existingUser = _repo.GetByID(userID);
 
+            if (existingUser == null) throw new InvalidOperationException("User doesn't exist");
+
+            updatedUser.UserID = existingUser.UserID;
+            updatedUser.DateRegistered = existingUser.DateRegistered;
+
+            _repo.Update(updatedUser);
         }
 
         public User? GetUser(int id)
@@ -54,6 +60,16 @@ namespace RecipeBookAPI.Services
             User? user = _repo.GetByEmail(email);
 
             return user;
+        }
+
+        public User? Login(string email, string password)
+        {
+            var loggingUser = _repo.GetByEmail(email);
+            if(loggingUser == null) throw new InvalidOperationException("Email doesn't exist");
+
+            if(loggingUser.PasswordHash != password) throw new UnauthorizedAccessException("Password is incorrect");
+
+            return loggingUser;
         }
     }
 }

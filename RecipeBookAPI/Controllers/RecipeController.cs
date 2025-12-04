@@ -101,7 +101,7 @@ namespace RecipeBookAPI.Controllers
             }
         }
 
-        [HttpGet("GetAllRecipes")]
+        [HttpGet("getRecipes/all")]
         public IActionResult GetAllRecipes()
         {
             try
@@ -109,10 +109,43 @@ namespace RecipeBookAPI.Controllers
                 var recipes = _recipeService.GetPublicRecipes();
                 return Ok(recipes);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet("getRecipes/byUser")]
+        public IActionResult GetRecipeByUser(int ownerID)
+        {
+            try
+            {
+                var recipes = _recipeService.GetByOwner(ownerID);
+                return Ok(recipes);
+            } catch (InvalidOperationException ex)
+            {
+                return Conflict(ex.Message);
+            }
+        }
+
+        [HttpGet("filter/totalTime")]
+        public IActionResult FilterByTotalTime(int minTime, int maxTime)
+        {
+            try
+            {
+                var results = _recipeService.TotalTimeFilter(minTime, maxTime);
+                return Ok(results);
+            } catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpGet("filter/difficulty")]
+        public IActionResult FilterByDifficulty([FromQuery] string difficulty)
+        {
+            return Ok(_recipeService.DifficultyFilter(difficulty));
         }
     }
 }
